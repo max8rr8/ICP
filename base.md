@@ -242,7 +242,12 @@ First of all choose json encoder/decoder for your implementation. Then implement
 - WS server/client
 - Serial server/client
 - Input/output server/client
-  Notice you should use only internal libraries of language for not making your implementation overweight. Then implement some extensions, it is highly recomend to implement Method and Variable extensions. And the last step add your implementation to our monorepo and we will add your implementation to package manager (if there) of your language.
+
+Notice you should it is highly recomended to give user ability to load only modules what they need
+
+Then implement some extensions, it is highly recomend to implement Method and Variable extensions.
+
+And the last step add your implementation to github and package manager.
 
 ### Recomended structure of implementation
 
