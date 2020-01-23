@@ -259,7 +259,7 @@ Ok, if your language supports OOP use it. Ok let's start from implementing base 
 - handle - which should be called when server acceptes message, message and function to send reply to client (both json-decoded)
 
 To subcribe callback function will be passed message and function that which accept json decoded msg that need to send to client as reply
-Also note about handling messages you should iterate for each endpoint until reply will be sent, if no endpoints left and reply not sended send client `{"type": "error", "msg":"Endpoint '/test' not found", "code": -1}`
+Also note about handling messages you should iterate for each endpoint until will be find endpoint with path that matches to requested, if no endpoints no endpoints found send client `{"type": "error", "msg":"Endpoint '/test' not found", "code": -1}`
 Here is an example of base server in pseudocode
 
 ```
@@ -280,17 +280,18 @@ class ICPServer {
   }
 
   handle(msg, write){
-    sendedReply = false
-    for(i = 0; (i < endpoints.length) and not sendedReply; i++){
+    find = false
+    for(i = 0; (i < endpoints.length) and not find; i++){
 	  if(wildcardMatch(pattern=endpoints[i].endpoint, target=msg["endpoint"]){
 		endpoints[i].callback(msg, function(reply){
 		  reply["id"] = msg["id"]
 		  write(reply)
-		  sendedReply = true
 		})
+
+	  find = true
 	  }
     }
-    if(!sendedReply){
+    if(!find){
 	  reply = decodeJSON("{\"type\": \"error\", \"msg\":\"Endpoint '" + msg["endpoint"] + "' not found\", \"code\": -1}")
 	  reply["id"] = msg["id"]
 	  write(reply)
